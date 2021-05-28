@@ -17,10 +17,6 @@
  const PORT: number = parseInt(process.env.PORT as string, 10);
  const app = express();
 
- app.use(helmet());
- app.use(cors());
- app.use(express.json());
-
  const fs = require("fs");
  const fastcsv = require("fast-csv");
  
@@ -57,7 +53,7 @@ let url = "mongodb://localhost:27017/";
 
 mongodb.connect(
   url,
-  { useNewUrlParser: true, useUnifiedTopology: true },
+ 
   (err, client) => {
     if (err) throw err;
     client
@@ -65,16 +61,16 @@ mongodb.connect(
       .collection("category")
       .insertMany(csvData, (err, res) => {
         if (err) throw err;
-       // console.log(`Inserted: ${res.insertedCount} rows`);
+        console.log(`Inserted: ${res.insertedCount} rows`);
         client.close();
       });
   }
 );
 
 
-
+app.use('/routes', routes)
  app.listen(PORT, () => {
     //console.log(`Listening on port ${PORT}`);
   });
 
-  app.use('/routes', routes)
+ 
