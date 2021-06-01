@@ -8,17 +8,13 @@ const readline = require('readline').createInterface({
   const mongodb = require("mongodb").MongoClient;
 const router = express.Router();
 console.log("choose route to find your result")
-dn ={
-    "1" : "for specific device",
-    "2" : "for 1pm particle",
-    "3" : "for 2.5pm particle",
-    "4" : "for 10pm particle",
-    
-}
-console.log(dn)
+
+
 readline.question('choose from among ', name => {
     
 //console.log(name)
+
+
 
 if(name == 1)
 {
@@ -32,7 +28,7 @@ mongodb.connect(
       client
         .db("praan2")
         .collection("category")
-        .find({"devicename":devicenam}, (err, res) => {
+        .findOne({"device":devicenam}, (err, res) => {
           if (err) throw err;
            console.log(res) 
           client.close();
@@ -76,7 +72,7 @@ mongodb.connect(
       client
         .db("praan2")
         .collection("category")
-        .find({device:true ,p10:true}, (err, res) => {
+        .findOne({device:true ,p10:true}, (err, res) => {
           if (err) throw err;
            console.log(res) 
           client.close();

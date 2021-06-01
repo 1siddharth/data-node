@@ -8,6 +8,7 @@
  const csv = require('csv-parser');
  const fs = require('fs');
  const routes = require("../routes/mainroute")
+
  dotenv.config();
 
  if (!process.env.PORT) {
@@ -69,8 +70,14 @@ mongodb.connect(
 
 
 app.use('/routes', routes)
+app.get("/",(req ,res) =>{
+
+  res.sendFile("./landing.html",{ root : __dirname})
+  
+  
+  })
  app.listen(PORT, () => {
-    //console.log(`Listening on port ${PORT}`);
+    console.log(`Listening on port ${PORT}`);
   });
 
  
