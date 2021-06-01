@@ -5,21 +5,25 @@
  import express from "express";
  import cors from "cors";
  import helmet from "helmet";
+
  const csv = require('csv-parser');
+ const bodyparser = require("body-parser")
  const fs = require('fs');
  const routes = require("../routes/mainroute")
-
+ const fastcsv = require("fast-csv");
  dotenv.config();
 
  if (!process.env.PORT) {
     process.exit(1);
  }
- 
+const app = express();
+app.use(bodyparser.urlencoded({extended :false}))
+app.use(bodyparser.json())
  const PORT: number = parseInt(process.env.PORT as string, 10);
- const app = express();
+ 
 
- const fs = require("fs");
- const fastcsv = require("fast-csv");
+
+ 
  
  let stream = fs.createReadStream("test_dataset_all.csv");
  let csvData = [];
@@ -69,13 +73,14 @@ mongodb.connect(
 );
 
 
-app.use('/routes', routes)
+
 app.get("/",(req ,res) =>{
 
   res.sendFile("./landing.html",{ root : __dirname})
-  
-  
   })
+
+
+app.use('/send', routes)
  app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   });
